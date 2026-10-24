@@ -13,9 +13,11 @@ RUN CI=true bun install --production --frozen-lockfile
 
 COPY --link . .
 
-FROM node:22-alpine3.20 AS runner
-LABEL org.opencontainers.image.source=https://github.com/discord-tickets/bot \
-	org.opencontainers.image.description="The most popular open-source ticket bot for Discord." \
+# node:22-alpine3.20 has been frozen at 22.16.0 since 2025-05 and misses the
+# 2026-10-21 Node.js security release (CVE-2026-111497 and others).
+FROM node:22.23.4-alpine3.24 AS runner
+LABEL org.opencontainers.image.source=https://github.com/deivide/bot \
+	org.opencontainers.image.description="Discord Tickets (github.com/discord-tickets/bot by eartharoid and contributors), image rebuilt by deivide on a patched Node.js base." \
 	org.opencontainers.image.licenses="GPL-3.0-or-later"
 
 RUN apk --no-cache add curl
