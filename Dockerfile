@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 
-FROM oven/bun:1 AS builder
+# Pinned: bun 1.4 rejects the github: erlpack entry in this bun.lock (written by 1.3).
+FROM oven/bun:1.3.14 AS builder
 
 WORKDIR /build
 
