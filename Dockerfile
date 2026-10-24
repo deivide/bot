@@ -21,7 +21,9 @@ LABEL org.opencontainers.image.source=https://github.com/deivide/bot \
 	org.opencontainers.image.description="Discord Tickets (github.com/discord-tickets/bot by eartharoid and contributors), image rebuilt by deivide on a patched Node.js base." \
 	org.opencontainers.image.licenses="GPL-3.0-or-later"
 
-RUN apk --no-cache add curl
+# openssl: Prisma generates its client at start-up (scripts/postinstall) and picks the
+# engine from the detected OpenSSL; alpine 3.24 no longer ships it in the node base image.
+RUN apk --no-cache add curl openssl
 
 RUN adduser --disabled-password --home /home/container container
 RUN mkdir /app \
