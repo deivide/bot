@@ -1,3 +1,8 @@
+> **About this fork.** This is [deivide/bot](https://github.com/deivide/bot), a fork of
+> [discord-tickets/bot](https://github.com/discord-tickets/bot) by eartharoid and its contributors, released under
+> GPL-3.0-or-later. All credit for the bot goes to the original project. This fork only republishes the container
+> image on a patched Node.js base: `ghcr.io/deivide/bot:4.0.51-node22.23.4` (Node 22.23.4, October 2026 security release).
+
 <div align="center">
 
 ![bots](https://img.shields.io/badge/dynamic/json?color=5865F2&label=bots&query=combined.active.count&url=https%3A%2F%2Fstats.discordtickets.app%2Fapi%2Fv4%2Fcurrent&logo=discord&logoColor=white&style=for-the-badge)

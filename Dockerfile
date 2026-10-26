@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 
-FROM oven/bun:1 AS builder
+# Pinned: bun 1.4 rejects the github: erlpack entry in this bun.lock (written by 1.3).
+FROM oven/bun:1.3.14 AS builder
 
 WORKDIR /build
 
@@ -13,12 +14,16 @@ RUN CI=true bun install --production --frozen-lockfile
 
 COPY --link . .
 
-FROM node:22-alpine3.20 AS runner
-LABEL org.opencontainers.image.source=https://github.com/discord-tickets/bot \
-	org.opencontainers.image.description="The most popular open-source ticket bot for Discord." \
+# node:22-alpine3.20 has been frozen at 22.16.0 since 2025-05 and misses the
+# 2026-10-21 Node.js security release (CVE-2026-111497 and others).
+FROM node:22.23.4-alpine3.24 AS runner
+LABEL org.opencontainers.image.source=https://github.com/deivide/bot \
+	org.opencontainers.image.description="Discord Tickets (github.com/discord-tickets/bot by eartharoid and contributors), image rebuilt by deivide on a patched Node.js base." \
 	org.opencontainers.image.licenses="GPL-3.0-or-later"
 
-RUN apk --no-cache add curl
+# openssl: Prisma generates its client at start-up (scripts/postinstall) and picks the
+# engine from the detected OpenSSL; alpine 3.24 no longer ships it in the node base image.
+RUN apk --no-cache add curl openssl
 
 RUN adduser --disabled-password --home /home/container container
 RUN mkdir /app \
